@@ -1,0 +1,25 @@
+﻿<Window x:Class="SelectedItemsBindingDemo.Window1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="clr-namespace:SelectedItemsBindingDemo"
+    xmlns:ff="clr-namespace:FunctionalFun.UI.Behaviours"
+    Title="SelectedItems Binding Demo" Height="300" Width="300"
+        >
+  <Window.DataContext>
+    <d:ViewModel/>
+  </Window.DataContext>
+    <Grid Margin="5">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="*"/>
+        <RowDefinition Height="Auto"/>
+      </Grid.RowDefinitions>
+      <TextBlock Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" 
+                 Text="{Binding Summary}" FontWeight="Bold" Margin ="0,5,5,5"/>
+      <Button Content="Select All" Command="{Binding SelectAll}" Grid.Row="1" 
+              HorizontalAlignment="Right" VerticalAlignment="Center"/>
+      <ListBox Grid.Row="0" 
+               ItemsSource="{Binding AvailableNames}"
+               ff:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedNames}" 
+               SelectionMode="Extended" />
+    </Grid>
+</Window>
