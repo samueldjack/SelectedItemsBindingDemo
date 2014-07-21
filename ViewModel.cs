@@ -16,7 +16,6 @@ namespace SelectedItemsBindingDemo
 
         public ViewModel()
         {
-            _selectedNames.CollectionChanged += (sender, e) => UpdateSummary();
         }
 
         public IEnumerable<string> AvailableNames
@@ -27,14 +26,6 @@ namespace SelectedItemsBindingDemo
                 {
                     "Abraham", "George", "James", "Joel", "John", "Peter", "Samuel", "Zachariah"
                 };
-            }
-        }
-
-        public ObservableCollection<string> SelectedNames
-        {
-            get
-            {
-                return _selectedNames;
             }
         }
 
@@ -67,6 +58,34 @@ namespace SelectedItemsBindingDemo
             }
         }
 
+        public ObservableCollection<string> SelectedNames 
+        { 
+            get
+            {
+                return _selectedNames;
+            }
+        }
+
+        public ICommand SelectionChangedCommand
+        {
+            get
+            {
+                return new RelayCommand(
+                    parameter =>
+                    {
+                        var items = (IList)parameter;
+                        var currentSelectedItems = items.Cast<string>();
+
+                        if (currentSelectedItems == null)
+                        {
+                            return;
+                        }
+
+                        UpdateSummary(currentSelectedItems);
+                    });
+            }
+        }
+
         protected void OnPropertyChanged(string propertyName)
         {
             var handler = PropertyChanged;
@@ -77,9 +96,9 @@ namespace SelectedItemsBindingDemo
             }
         }
 
-        private void UpdateSummary()
+        private void UpdateSummary(IEnumerable<string> selectedNames)
         {
-            Summary = string.Format("{0} names are selected.", SelectedNames.Count);
+            Summary = string.Format("{0} names are selected.", selectedNames.Count());
         }
 
         #region INotifyPropertyChanged Members
