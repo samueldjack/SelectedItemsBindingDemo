@@ -1,10 +1,10 @@
 namespace PrimS.SelectedItemsSynchronizer
 {
+  using System;
   using System.Collections;
   using System.Windows;
-  using System.Windows.Controls.Primitives;
   using System.Windows.Controls;
-  using System;
+  using System.Windows.Controls.Primitives;
 
   /// <summary>
   /// A sync behaviour for a multiselector.
@@ -12,10 +12,10 @@ namespace PrimS.SelectedItemsSynchronizer
   public static class MultiSelectorBehaviours
   {
     public static readonly DependencyProperty SynchronizedSelectedItems = DependencyProperty.RegisterAttached(
-        "SynchronizedSelectedItems", typeof(IList), typeof(MultiSelectorBehaviours), new PropertyMetadata(null, OnSynchronizedSelectedItemsChanged));
+      "SynchronizedSelectedItems", typeof(IList), typeof(MultiSelectorBehaviours), new PropertyMetadata(null, OnSynchronizedSelectedItemsChanged));
 
     private static readonly DependencyProperty SynchronizationManagerProperty = DependencyProperty.RegisterAttached(
-        "SynchronizationManager", typeof(SynchronizationManager), typeof(MultiSelectorBehaviours), new PropertyMetadata(null));
+      "SynchronizationManager", typeof(SynchronizationManager), typeof(MultiSelectorBehaviours), new PropertyMetadata(null));
 
     /// <summary>
     /// Gets the synchronized selected items.
@@ -88,7 +88,7 @@ namespace PrimS.SelectedItemsSynchronizer
       /// <param name="selector">The selector.</param>
       internal SynchronizationManager(Selector selector)
       {
-        _multiSelector = selector;
+        this._multiSelector = selector;
       }
 
       /// <summary>
@@ -96,12 +96,12 @@ namespace PrimS.SelectedItemsSynchronizer
       /// </summary>
       public void StartSynchronizingList()
       {
-        IList list = GetSynchronizedSelectedItems(_multiSelector);
+        IList list = GetSynchronizedSelectedItems(this._multiSelector);
 
         if (list != null)
         {
-          _synchronizer = new TwoListSynchronizer(GetSelectedItemsCollection(_multiSelector), list);
-          _synchronizer.StartSynchronizing();
+          this._synchronizer = new TwoListSynchronizer(GetSelectedItemsCollection(this._multiSelector), list);
+          this._synchronizer.StartSynchronizing();
         }
       }
 
@@ -110,7 +110,7 @@ namespace PrimS.SelectedItemsSynchronizer
       /// </summary>
       public void StopSynchronizing()
       {
-        _synchronizer.StopSynchronizing();
+        this._synchronizer.StopSynchronizing();
       }
 
       public static IList GetSelectedItemsCollection(Selector selector)
@@ -128,7 +128,6 @@ namespace PrimS.SelectedItemsSynchronizer
           throw new InvalidOperationException("Target object has no SelectedItems property to bind.");
         }
       }
-
     }
   }
 }

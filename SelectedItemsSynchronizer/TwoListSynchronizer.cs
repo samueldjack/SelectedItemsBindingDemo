@@ -16,7 +16,6 @@ namespace PrimS.SelectedItemsSynchronizer
     private readonly IListItemConverter _masterTargetConverter;
     private readonly IList _targetList;
 
-
     /// <summary>
     /// Initializes a new instance of the <see cref="TwoListSynchronizer"/> class.
     /// </summary>
@@ -25,9 +24,9 @@ namespace PrimS.SelectedItemsSynchronizer
     /// <param name="masterTargetConverter">The master-target converter.</param>
     public TwoListSynchronizer(IList masterList, IList targetList, IListItemConverter masterTargetConverter)
     {
-      _masterList = masterList;
-      _targetList = targetList;
-      _masterTargetConverter = masterTargetConverter;
+      this._masterList = masterList;
+      this._targetList = targetList;
+      this._masterTargetConverter = masterTargetConverter;
     }
 
     /// <summary>
@@ -47,18 +46,18 @@ namespace PrimS.SelectedItemsSynchronizer
     /// </summary>
     public void StartSynchronizing()
     {
-      ListenForChangeEvents(_masterList);
-      ListenForChangeEvents(_targetList);
+      this.ListenForChangeEvents(this._masterList);
+      this.ListenForChangeEvents(this._targetList);
 
       // Update the Target list from the Master list
-      SetListValuesFromSource(_masterList, _targetList, ConvertFromMasterToTarget);
+      this.SetListValuesFromSource(this._masterList, this._targetList, this.ConvertFromMasterToTarget);
 
       // In some cases the target list might have its own view on which items should included:
       // so update the master list from the target list
       // (This is the case with a ListBox SelectedItems collection: only items from the ItemsSource can be included in SelectedItems)
-      if (!TargetAndMasterCollectionsAreEqual())
+      if (!this.TargetAndMasterCollectionsAreEqual())
       {
-        SetListValuesFromSource(_targetList, _masterList, ConvertFromTargetToMaster);
+        this.SetListValuesFromSource(this._targetList, this._masterList, this.ConvertFromTargetToMaster);
       }
     }
 
@@ -67,8 +66,8 @@ namespace PrimS.SelectedItemsSynchronizer
     /// </summary>
     public void StopSynchronizing()
     {
-      StopListeningForChangeEvents(_masterList);
-      StopListeningForChangeEvents(_targetList);
+      this.StopListeningForChangeEvents(this._masterList);
+      this.StopListeningForChangeEvents(this._targetList);
     }
 
     /// <summary>
@@ -82,7 +81,7 @@ namespace PrimS.SelectedItemsSynchronizer
     /// </returns>
     public bool ReceiveWeakEvent(Type managerType, object sender, EventArgs e)
     {
-      HandleCollectionChanged(sender as IList, e as NotifyCollectionChangedEventArgs);
+      this.HandleCollectionChanged(sender as IList, e as NotifyCollectionChangedEventArgs);
 
       return true;
     }
@@ -132,12 +131,12 @@ namespace PrimS.SelectedItemsSynchronizer
 
     private object ConvertFromMasterToTarget(object masterListItem)
     {
-      return _masterTargetConverter == null ? masterListItem : _masterTargetConverter.Convert(masterListItem);
+      return this._masterTargetConverter == null ? masterListItem : this._masterTargetConverter.Convert(masterListItem);
     }
 
     private object ConvertFromTargetToMaster(object targetListItem)
     {
-      return _masterTargetConverter == null ? targetListItem : _masterTargetConverter.ConvertBack(targetListItem);
+      return this._masterTargetConverter == null ? targetListItem : this._masterTargetConverter.ConvertBack(targetListItem);
     }
 
     private void HandleCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -147,19 +146,19 @@ namespace PrimS.SelectedItemsSynchronizer
       switch (e.Action)
       {
         case NotifyCollectionChangedAction.Add:
-          PerformActionOnAllLists(AddItems, sourceList, e);
+          this.PerformActionOnAllLists(this.AddItems, sourceList, e);
           break;
         case NotifyCollectionChangedAction.Move:
-          PerformActionOnAllLists(MoveItems, sourceList, e);
+          this.PerformActionOnAllLists(this.MoveItems, sourceList, e);
           break;
         case NotifyCollectionChangedAction.Remove:
-          PerformActionOnAllLists(RemoveItems, sourceList, e);
+          this.PerformActionOnAllLists(this.RemoveItems, sourceList, e);
           break;
         case NotifyCollectionChangedAction.Replace:
-          PerformActionOnAllLists(ReplaceItems, sourceList, e);
+          this.PerformActionOnAllLists(this.ReplaceItems, sourceList, e);
           break;
         case NotifyCollectionChangedAction.Reset:
-          UpdateListsFromSource(sender as IList);
+          this.UpdateListsFromSource(sender as IList);
           break;
         default:
           break;
@@ -168,27 +167,27 @@ namespace PrimS.SelectedItemsSynchronizer
 
     private void MoveItems(IList list, NotifyCollectionChangedEventArgs e, Converter<object, object> converter)
     {
-      RemoveItems(list, e, converter);
-      AddItems(list, e, converter);
+      this.RemoveItems(list, e, converter);
+      this.AddItems(list, e, converter);
     }
 
     private void PerformActionOnAllLists(ChangeListAction action, IList sourceList, NotifyCollectionChangedEventArgs collectionChangedArgs)
     {
-      if (sourceList == _masterList)
+      if (sourceList == this._masterList)
       {
-        PerformActionOnList(_targetList, action, collectionChangedArgs, ConvertFromMasterToTarget);
+        this.PerformActionOnList(this._targetList, action, collectionChangedArgs, this.ConvertFromMasterToTarget);
       }
       else
       {
-        PerformActionOnList(_masterList, action, collectionChangedArgs, ConvertFromTargetToMaster);
+        this.PerformActionOnList(this._masterList, action, collectionChangedArgs, this.ConvertFromTargetToMaster);
       }
     }
 
     private void PerformActionOnList(IList list, ChangeListAction action, NotifyCollectionChangedEventArgs collectionChangedArgs, Converter<object, object> converter)
     {
-      StopListeningForChangeEvents(list);
+      this.StopListeningForChangeEvents(list);
       action(list, collectionChangedArgs, converter);
-      ListenForChangeEvents(list);
+      this.ListenForChangeEvents(list);
     }
 
     private void RemoveItems(IList list, NotifyCollectionChangedEventArgs e, Converter<object, object> converter)
@@ -205,13 +204,13 @@ namespace PrimS.SelectedItemsSynchronizer
 
     private void ReplaceItems(IList list, NotifyCollectionChangedEventArgs e, Converter<object, object> converter)
     {
-      RemoveItems(list, e, converter);
-      AddItems(list, e, converter);
+      this.RemoveItems(list, e, converter);
+      this.AddItems(list, e, converter);
     }
 
     private void SetListValuesFromSource(IList sourceList, IList targetList, Converter<object, object> converter)
     {
-      StopListeningForChangeEvents(targetList);
+      this.StopListeningForChangeEvents(targetList);
 
       targetList.Clear();
 
@@ -220,12 +219,12 @@ namespace PrimS.SelectedItemsSynchronizer
         targetList.Add(converter(o));
       }
 
-      ListenForChangeEvents(targetList);
+      this.ListenForChangeEvents(targetList);
     }
 
     private bool TargetAndMasterCollectionsAreEqual()
     {
-      return _masterList.Cast<object>().SequenceEqual(_targetList.Cast<object>().Select(item => ConvertFromTargetToMaster(item)));
+      return this._masterList.Cast<object>().SequenceEqual(this._targetList.Cast<object>().Select(item => this.ConvertFromTargetToMaster(item)));
     }
 
     /// <summary>
@@ -234,18 +233,15 @@ namespace PrimS.SelectedItemsSynchronizer
     /// <param name="sourceList">The source list.</param>
     private void UpdateListsFromSource(IList sourceList)
     {
-      if (sourceList == _masterList)
+      if (sourceList == this._masterList)
       {
-        SetListValuesFromSource(_masterList, _targetList, ConvertFromMasterToTarget);
+        this.SetListValuesFromSource(this._masterList, this._targetList, this.ConvertFromMasterToTarget);
       }
       else
       {
-        SetListValuesFromSource(_targetList, _masterList, ConvertFromTargetToMaster);
+        this.SetListValuesFromSource(this._targetList, this._masterList, this.ConvertFromTargetToMaster);
       }
     }
-
-
-
 
     /// <summary>
     /// An implementation that does nothing in the conversions.
