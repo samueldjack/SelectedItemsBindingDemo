@@ -5,6 +5,7 @@
     <CollectionProperty Name="RecognizedWords">
       <Value>Autofac</Value>
       <Value>bootstrapper</Value>
+      <Value>multiselector</Value>
       <Value>proxied</Value>
     </CollectionProperty>
     <StringProperty Name="Culture">en-GB</StringProperty>

@@ -11,6 +11,9 @@ namespace PrimS.SelectedItemsSynchronizer
   /// </summary>
   public static class MultiSelectorBehaviours
   {
+    /// <summary>
+    /// The synchronized selected items.
+    /// </summary>
     public static readonly DependencyProperty SynchronizedSelectedItems = DependencyProperty.RegisterAttached(
       "SynchronizedSelectedItems", typeof(IList), typeof(MultiSelectorBehaviours), new PropertyMetadata(null, OnSynchronizedSelectedItemsChanged));
 
@@ -79,38 +82,16 @@ namespace PrimS.SelectedItemsSynchronizer
     /// </summary>
     private class SynchronizationManager
     {
-      private readonly Selector _multiSelector;
-      private TwoListSynchronizer _synchronizer;
+      private readonly Selector multiSelector;
+      private TwoListSynchronizer synchronizer;
 
       /// <summary>
-      /// Initializes a new instance of the <see cref="SynchronizationManager"/> class.
+      /// Initialises a new instance of the <see cref="SynchronizationManager"/> class.
       /// </summary>
       /// <param name="selector">The selector.</param>
       internal SynchronizationManager(Selector selector)
       {
-        this._multiSelector = selector;
-      }
-
-      /// <summary>
-      /// Starts synchronizing the list.
-      /// </summary>
-      public void StartSynchronizingList()
-      {
-        IList list = GetSynchronizedSelectedItems(this._multiSelector);
-
-        if (list != null)
-        {
-          this._synchronizer = new TwoListSynchronizer(GetSelectedItemsCollection(this._multiSelector), list);
-          this._synchronizer.StartSynchronizing();
-        }
-      }
-
-      /// <summary>
-      /// Stops synchronizing the list.
-      /// </summary>
-      public void StopSynchronizing()
-      {
-        this._synchronizer.StopSynchronizing();
+        this.multiSelector = selector;
       }
 
       public static IList GetSelectedItemsCollection(Selector selector)
@@ -127,6 +108,28 @@ namespace PrimS.SelectedItemsSynchronizer
         {
           throw new InvalidOperationException("Target object has no SelectedItems property to bind.");
         }
+      }
+
+      /// <summary>
+      /// Starts synchronizing the list.
+      /// </summary>
+      public void StartSynchronizingList()
+      {
+        IList list = GetSynchronizedSelectedItems(this.multiSelector);
+
+        if (list != null)
+        {
+          this.synchronizer = new TwoListSynchronizer(GetSelectedItemsCollection(this.multiSelector), list);
+          this.synchronizer.StartSynchronizing();
+        }
+      }
+
+      /// <summary>
+      /// Stops synchronizing the list.
+      /// </summary>
+      public void StopSynchronizing()
+      {
+        this.synchronizer.StopSynchronizing();
       }
     }
   }

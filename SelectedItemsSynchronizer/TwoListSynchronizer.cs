@@ -12,25 +12,25 @@ namespace PrimS.SelectedItemsSynchronizer
   public class TwoListSynchronizer : IWeakEventListener
   {
     private static readonly IListItemConverter DefaultConverter = new DoNothingListItemConverter();
-    private readonly IList _masterList;
-    private readonly IListItemConverter _masterTargetConverter;
-    private readonly IList _targetList;
+    private readonly IList masterList;
+    private readonly IListItemConverter masterTargetConverter;
+    private readonly IList targetList;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="TwoListSynchronizer"/> class.
+    /// Initialises a new instance of the <see cref="TwoListSynchronizer"/> class.
     /// </summary>
     /// <param name="masterList">The master list.</param>
     /// <param name="targetList">The target list.</param>
     /// <param name="masterTargetConverter">The master-target converter.</param>
     public TwoListSynchronizer(IList masterList, IList targetList, IListItemConverter masterTargetConverter)
     {
-      this._masterList = masterList;
-      this._targetList = targetList;
-      this._masterTargetConverter = masterTargetConverter;
+      this.masterList = masterList;
+      this.targetList = targetList;
+      this.masterTargetConverter = masterTargetConverter;
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="TwoListSynchronizer"/> class.
+    /// Initialises a new instance of the <see cref="TwoListSynchronizer"/> class.
     /// </summary>
     /// <param name="masterList">The master list.</param>
     /// <param name="targetList">The target list.</param>
@@ -46,18 +46,18 @@ namespace PrimS.SelectedItemsSynchronizer
     /// </summary>
     public void StartSynchronizing()
     {
-      this.ListenForChangeEvents(this._masterList);
-      this.ListenForChangeEvents(this._targetList);
+      this.ListenForChangeEvents(this.masterList);
+      this.ListenForChangeEvents(this.targetList);
 
       // Update the Target list from the Master list
-      this.SetListValuesFromSource(this._masterList, this._targetList, this.ConvertFromMasterToTarget);
+      this.SetListValuesFromSource(this.masterList, this.targetList, this.ConvertFromMasterToTarget);
 
       // In some cases the target list might have its own view on which items should included:
       // so update the master list from the target list
       // (This is the case with a ListBox SelectedItems collection: only items from the ItemsSource can be included in SelectedItems)
       if (!this.TargetAndMasterCollectionsAreEqual())
       {
-        this.SetListValuesFromSource(this._targetList, this._masterList, this.ConvertFromTargetToMaster);
+        this.SetListValuesFromSource(this.targetList, this.masterList, this.ConvertFromTargetToMaster);
       }
     }
 
@@ -66,8 +66,8 @@ namespace PrimS.SelectedItemsSynchronizer
     /// </summary>
     public void StopSynchronizing()
     {
-      this.StopListeningForChangeEvents(this._masterList);
-      this.StopListeningForChangeEvents(this._targetList);
+      this.StopListeningForChangeEvents(this.masterList);
+      this.StopListeningForChangeEvents(this.targetList);
     }
 
     /// <summary>
@@ -77,7 +77,7 @@ namespace PrimS.SelectedItemsSynchronizer
     /// <param name="sender">Object that originated the event.</param>
     /// <param name="e">Event data.</param>
     /// <returns>
-    /// true if the listener handled the event. It is considered an error by the <see cref="T:System.Windows.WeakEventManager"/> handling in WPF to register a listener for an event that the listener does not handle. Regardless, the method should return false if it receives an event that it does not recognize or handle.
+    /// True if the listener handled the event. It is considered an error by the <see cref="T:System.Windows.WeakEventManager"/> handling in WPF to register a listener for an event that the listener does not handle. Regardless, the method should return false if it receives an event that it does not recognize or handle.
     /// </returns>
     public bool ReceiveWeakEvent(Type managerType, object sender, EventArgs e)
     {
@@ -131,12 +131,12 @@ namespace PrimS.SelectedItemsSynchronizer
 
     private object ConvertFromMasterToTarget(object masterListItem)
     {
-      return this._masterTargetConverter == null ? masterListItem : this._masterTargetConverter.Convert(masterListItem);
+      return this.masterTargetConverter == null ? masterListItem : this.masterTargetConverter.Convert(masterListItem);
     }
 
     private object ConvertFromTargetToMaster(object targetListItem)
     {
-      return this._masterTargetConverter == null ? targetListItem : this._masterTargetConverter.ConvertBack(targetListItem);
+      return this.masterTargetConverter == null ? targetListItem : this.masterTargetConverter.ConvertBack(targetListItem);
     }
 
     private void HandleCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -173,13 +173,13 @@ namespace PrimS.SelectedItemsSynchronizer
 
     private void PerformActionOnAllLists(ChangeListAction action, IList sourceList, NotifyCollectionChangedEventArgs collectionChangedArgs)
     {
-      if (sourceList == this._masterList)
+      if (sourceList == this.masterList)
       {
-        this.PerformActionOnList(this._targetList, action, collectionChangedArgs, this.ConvertFromMasterToTarget);
+        this.PerformActionOnList(this.targetList, action, collectionChangedArgs, this.ConvertFromMasterToTarget);
       }
       else
       {
-        this.PerformActionOnList(this._masterList, action, collectionChangedArgs, this.ConvertFromTargetToMaster);
+        this.PerformActionOnList(this.masterList, action, collectionChangedArgs, this.ConvertFromTargetToMaster);
       }
     }
 
@@ -224,7 +224,7 @@ namespace PrimS.SelectedItemsSynchronizer
 
     private bool TargetAndMasterCollectionsAreEqual()
     {
-      return this._masterList.Cast<object>().SequenceEqual(this._targetList.Cast<object>().Select(item => this.ConvertFromTargetToMaster(item)));
+      return this.masterList.Cast<object>().SequenceEqual(this.targetList.Cast<object>().Select(item => this.ConvertFromTargetToMaster(item)));
     }
 
     /// <summary>
@@ -233,13 +233,13 @@ namespace PrimS.SelectedItemsSynchronizer
     /// <param name="sourceList">The source list.</param>
     private void UpdateListsFromSource(IList sourceList)
     {
-      if (sourceList == this._masterList)
+      if (sourceList == this.masterList)
       {
-        this.SetListValuesFromSource(this._masterList, this._targetList, this.ConvertFromMasterToTarget);
+        this.SetListValuesFromSource(this.masterList, this.targetList, this.ConvertFromMasterToTarget);
       }
       else
       {
-        this.SetListValuesFromSource(this._targetList, this._masterList, this.ConvertFromTargetToMaster);
+        this.SetListValuesFromSource(this.targetList, this.masterList, this.ConvertFromTargetToMaster);
       }
     }
 
