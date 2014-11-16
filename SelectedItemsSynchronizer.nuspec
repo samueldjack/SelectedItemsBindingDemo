@@ -12,10 +12,10 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Facilitates binding WPF SelectedItems</description>
     <releaseNotes>
-      Beta release.
+      Targeting Net 4.5.
     </releaseNotes>
     <copyright>Copyright (c) 9swampy, SelectedItemSynchronizer contributors</copyright>
-    <tags>SelectedItems WPF binding ViewModel MVVM</tags>
+    <tags>SelectedItems WPF binding ViewModel MVVM multiselector selector ListView ListBox</tags>
   </metadata>
   <files>
     <file src="License.txt" target="content" />
