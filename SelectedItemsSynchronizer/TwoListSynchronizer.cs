@@ -34,8 +34,7 @@ namespace PrimS.SelectedItemsSynchronizer
     /// </summary>
     /// <param name="masterList">The master list.</param>
     /// <param name="targetList">The target list.</param>
-    public TwoListSynchronizer(IList masterList, IList targetList)
-      : this(masterList, targetList, DefaultConverter)
+    public TwoListSynchronizer(IList masterList, IList targetList) : this(masterList, targetList, DefaultConverter)
     {
     }
 
