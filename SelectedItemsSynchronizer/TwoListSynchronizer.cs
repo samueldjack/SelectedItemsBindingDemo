@@ -46,18 +46,21 @@ namespace PrimS.SelectedItemsSynchronizer
     /// </summary>
     public void StartSynchronizing()
     {
-      this.ListenForChangeEvents(this.masterList);
-      this.ListenForChangeEvents(this.targetList);
-
-      // Update the Target list from the Master list
-      this.SetListValuesFromSource(this.masterList, this.targetList, this.ConvertFromMasterToTarget);
-
-      // In some cases the target list might have its own view on which items should included:
-      // so update the master list from the target list
-      // (This is the case with a ListBox SelectedItems collection: only items from the ItemsSource can be included in SelectedItems)
-      if (!this.TargetAndMasterCollectionsAreEqual())
+      lock (this)
       {
-        this.SetListValuesFromSource(this.targetList, this.masterList, this.ConvertFromTargetToMaster);
+        this.ListenForChangeEvents(this.masterList);
+        this.ListenForChangeEvents(this.targetList);
+
+        // Update the Target list from the Master list
+        this.SetListValuesFromSource(this.masterList, this.targetList, this.ConvertFromMasterToTarget);
+
+        // In some cases the target list might have its own view on which items should included:
+        // so update the master list from the target list
+        // (This is the case with a ListBox SelectedItems collection: only items from the ItemsSource can be included in SelectedItems)
+        if (!this.TargetAndMasterCollectionsAreEqual())
+        {
+          this.SetListValuesFromSource(this.targetList, this.masterList, this.ConvertFromTargetToMaster);
+        }
       }
     }
 
@@ -66,8 +69,11 @@ namespace PrimS.SelectedItemsSynchronizer
     /// </summary>
     public void StopSynchronizing()
     {
-      this.StopListeningForChangeEvents(this.masterList);
-      this.StopListeningForChangeEvents(this.targetList);
+      lock (this)
+      {
+        this.StopListeningForChangeEvents(this.masterList);
+        this.StopListeningForChangeEvents(this.targetList);
+      }
     }
 
     /// <summary>
@@ -141,27 +147,30 @@ namespace PrimS.SelectedItemsSynchronizer
 
     private void HandleCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      IList sourceList = sender as IList;
-
-      switch (e.Action)
+      lock (this)
       {
-        case NotifyCollectionChangedAction.Add:
-          this.PerformActionOnAllLists(this.AddItems, sourceList, e);
-          break;
-        case NotifyCollectionChangedAction.Move:
-          this.PerformActionOnAllLists(this.MoveItems, sourceList, e);
-          break;
-        case NotifyCollectionChangedAction.Remove:
-          this.PerformActionOnAllLists(this.RemoveItems, sourceList, e);
-          break;
-        case NotifyCollectionChangedAction.Replace:
-          this.PerformActionOnAllLists(this.ReplaceItems, sourceList, e);
-          break;
-        case NotifyCollectionChangedAction.Reset:
-          this.UpdateListsFromSource(sender as IList);
-          break;
-        default:
-          break;
+        IList sourceList = sender as IList;
+
+        switch (e.Action)
+        {
+          case NotifyCollectionChangedAction.Add:
+            this.PerformActionOnAllLists(this.AddItems, sourceList, e);
+            break;
+          case NotifyCollectionChangedAction.Move:
+            this.PerformActionOnAllLists(this.MoveItems, sourceList, e);
+            break;
+          case NotifyCollectionChangedAction.Remove:
+            this.PerformActionOnAllLists(this.RemoveItems, sourceList, e);
+            break;
+          case NotifyCollectionChangedAction.Replace:
+            this.PerformActionOnAllLists(this.ReplaceItems, sourceList, e);
+            break;
+          case NotifyCollectionChangedAction.Reset:
+            this.UpdateListsFromSource(sender as IList);
+            break;
+          default:
+            throw new NotImplementedException(string.Format("Unhandled enum member {0}", e.Action.ToString("f")));
+        }
       }
     }
 

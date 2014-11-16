@@ -30,17 +30,11 @@
         </i:EventTrigger>
       </i:Interaction.Triggers>
     </ListBox>
-    <ListView x:Name="NamesListView"
+        <ListView x:Name="NamesListView"
               Grid.Row="1"
               ItemsSource="{Binding AvailableNames}"
               ffx:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedNames}"
               SelectionMode="Extended">
-      <i:Interaction.Triggers>
-        <i:EventTrigger EventName="SelectionChanged">
-          <i:InvokeCommandAction Command="{Binding SelectionChangedCommand}" 
-                        CommandParameter="{Binding ElementName=NamesListBox, Path=SelectedItems}" />
-        </i:EventTrigger>
-      </i:Interaction.Triggers>
-    </ListView>
+        </ListView>
   </Grid>
 </Window>

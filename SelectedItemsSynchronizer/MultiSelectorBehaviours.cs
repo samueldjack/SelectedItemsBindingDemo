@@ -73,7 +73,7 @@ namespace PrimS.SelectedItemsSynchronizer
           SetSynchronizationManager(dependencyObject, synchronizer);
         }
 
-        synchronizer.StartSynchronizingList();
+        synchronizer.StartSynchronizing();
       }
     }
 
@@ -113,7 +113,7 @@ namespace PrimS.SelectedItemsSynchronizer
       /// <summary>
       /// Starts synchronizing the list.
       /// </summary>
-      public void StartSynchronizingList()
+      public void StartSynchronizing()
       {
         IList list = GetSynchronizedSelectedItems(this.multiSelector);
 
