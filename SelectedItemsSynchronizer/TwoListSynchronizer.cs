@@ -34,8 +34,7 @@ namespace PrimS.SelectedItemsSynchronizer
     /// </summary>
     /// <param name="masterList">The master list.</param>
     /// <param name="targetList">The target list.</param>
-    public TwoListSynchronizer(IList masterList, IList targetList)
-      : this(masterList, targetList, DefaultConverter)
+    public TwoListSynchronizer(IList masterList, IList targetList) : this(masterList, targetList, DefaultConverter)
     {
     }
 
@@ -46,21 +45,28 @@ namespace PrimS.SelectedItemsSynchronizer
     /// </summary>
     public void StartSynchronizing()
     {
-      lock (this)
+      try
       {
-        this.ListenForChangeEvents(this.masterList);
-        this.ListenForChangeEvents(this.targetList);
-
-        // Update the Target list from the Master list
-        this.SetListValuesFromSource(this.masterList, this.targetList, this.ConvertFromMasterToTarget);
-
-        // In some cases the target list might have its own view on which items should included:
-        // so update the master list from the target list
-        // (This is the case with a ListBox SelectedItems collection: only items from the ItemsSource can be included in SelectedItems)
-        if (!this.TargetAndMasterCollectionsAreEqual())
+        lock (this)
         {
-          this.SetListValuesFromSource(this.targetList, this.masterList, this.ConvertFromTargetToMaster);
+          this.ListenForChangeEvents(this.masterList);
+          this.ListenForChangeEvents(this.targetList);
+
+          // Update the Target list from the Master list
+          this.SetListValuesFromSource(this.masterList, this.targetList, this.ConvertFromMasterToTarget);
+
+          // In some cases the target list might have its own view on which items should included:
+          // so update the master list from the target list
+          // (This is the case with a ListBox SelectedItems collection: only items from the ItemsSource can be included in SelectedItems)
+          if (!this.TargetAndMasterCollectionsAreEqual())
+          {
+            this.SetListValuesFromSource(this.targetList, this.masterList, this.ConvertFromTargetToMaster);
+          }
         }
+      }
+      catch (Exception ex)
+      {
+        throw;
       }
     }
 
@@ -69,10 +75,17 @@ namespace PrimS.SelectedItemsSynchronizer
     /// </summary>
     public void StopSynchronizing()
     {
-      lock (this)
+      try
       {
-        this.StopListeningForChangeEvents(this.masterList);
-        this.StopListeningForChangeEvents(this.targetList);
+        lock (this)
+        {
+          this.StopListeningForChangeEvents(this.masterList);
+          this.StopListeningForChangeEvents(this.targetList);
+        }
+      }
+      catch (Exception ex)
+      {
+        throw;
       }
     }
 
@@ -87,9 +100,16 @@ namespace PrimS.SelectedItemsSynchronizer
     /// </returns>
     public bool ReceiveWeakEvent(Type managerType, object sender, EventArgs e)
     {
-      this.HandleCollectionChanged(sender as IList, e as NotifyCollectionChangedEventArgs);
+      try
+      {
+        this.HandleCollectionChanged(sender as IList, e as NotifyCollectionChangedEventArgs);
 
-      return true;
+        return true;
+      }
+      catch (Exception ex)
+      {
+        throw;
+      }
     }
 
     /// <summary>
@@ -207,7 +227,10 @@ namespace PrimS.SelectedItemsSynchronizer
       // (this will cause following items to be shifted down to fill the hole).
       for (int i = 0; i < itemCount; i++)
       {
-        list.RemoveAt(e.OldStartingIndex);
+        if (list.Count > e.OldStartingIndex)
+        {
+          list.RemoveAt(e.OldStartingIndex);
+        }
       }
     }
 
