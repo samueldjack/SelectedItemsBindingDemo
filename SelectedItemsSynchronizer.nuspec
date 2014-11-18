@@ -12,7 +12,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Facilitates binding WPF SelectedItems</description>
     <releaseNotes>
-      Targeting Net 4.5.
+      Adds working example/prototype OneWayToSource Calendar synchronizer.
     </releaseNotes>
     <copyright>Copyright (c) 9swampy, SelectedItemSynchronizer contributors</copyright>
     <tags>SelectedItems WPF binding ViewModel MVVM multiselector selector ListView ListBox</tags>

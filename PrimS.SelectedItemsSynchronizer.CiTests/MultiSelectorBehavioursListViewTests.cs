@@ -10,7 +10,7 @@
   using System.Windows.Controls;
 
   [TestClass]
-  public class MultiSelectorBehavioursTests
+  public class MultiSelectorBehavioursListViewTests
   {
     List<string> names;
     ObservableCollection<string> selectedNames;

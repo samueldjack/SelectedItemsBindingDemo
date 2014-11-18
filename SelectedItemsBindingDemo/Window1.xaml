@@ -12,6 +12,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -57,5 +58,25 @@
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </ListView>
+        <Calendar Grid.Row="0" 
+                  Grid.Column="2"
+                  ffx:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedDates}"
+                  SelectionMode="SingleRange">
+        </Calendar>
+        <Grid       Grid.Row="1" 
+                    Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="1*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Label Content="Start" Grid.Row="0" Grid.Column="0" />
+            <Label Content="{Binding StartDate, StringFormat=d}" Grid.Row="0" Grid.Column="1"/>
+            <Label Content="End" Grid.Row="1" Grid.Column="0" />
+            <Label Content="{Binding EndDate, StringFormat=d}" Grid.Row="1" Grid.Column="1"/>
+        </Grid>
     </Grid>
 </Window>

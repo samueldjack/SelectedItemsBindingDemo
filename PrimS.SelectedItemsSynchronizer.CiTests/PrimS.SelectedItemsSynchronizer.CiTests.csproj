@@ -62,7 +62,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="MultiSelectorBehavioursTests.cs" />
+    <Compile Include="MultiSelectorBehavioursCalendarTests.cs" />
+    <Compile Include="MultiSelectorBehavioursListViewTests.cs" />
     <Compile Include="TwoListSynchronizerDeletionBehaviour.cs" />
     <Compile Include="TwoListSynchronizerInitialization.cs" />
     <Compile Include="TwoListSynchronizerInsertionBehaviour.cs" />

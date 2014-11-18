@@ -13,6 +13,8 @@
   {
     private readonly ObservableCollection<string> selectedNames;
     private readonly ObservableCollection<string> selectedSecondaries;
+    private readonly ObservableCollection<DateTime> selectedDates;
+
     private string summary;
 
     private int selectingMap;
@@ -23,6 +25,15 @@
       this.selectedNames = new ObservableCollection<string>();
       this.selectedNames.CollectionChanged += this.selectedNames_CollectionChanged;
       this.selectedSecondaries = new ObservableCollection<string>();
+      this.selectedDates = new ObservableCollection<DateTime>();
+      this.selectedDates.Add(DateTime.Today);
+      this.selectedDates.CollectionChanged += SelectedDatesCollectionChanged;
+    }
+
+    void SelectedDatesCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+    {
+      this.OnPropertyChanged("StartDate");
+      this.OnPropertyChanged("EndDate");
     }
 
     private void selectedNames_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -136,6 +147,35 @@
       get
       {
         return this.selectedSecondaries;
+      }
+    }
+
+    public ObservableCollection<DateTime> SelectedDates
+    {
+      get
+      {
+        return this.selectedDates;
+      }
+    }
+
+    public DateTime StartDate
+    {
+      get
+      {
+        if (this.selectedDates.Count == 0)
+        {
+          return DateTime.MaxValue;
+        }
+        return this.SelectedDates.Min();
+      }
+    }
+
+    public DateTime EndDate
+    {
+      get
+      {
+        if (this.selectedDates.Count == 0) return DateTime.MaxValue;
+        return this.SelectedDates.Max();
       }
     }
 

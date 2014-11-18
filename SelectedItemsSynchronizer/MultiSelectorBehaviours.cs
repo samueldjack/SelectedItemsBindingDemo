@@ -18,7 +18,7 @@ namespace PrimS.SelectedItemsSynchronizer
       "SynchronizedSelectedItems", typeof(IList), typeof(MultiSelectorBehaviours), new PropertyMetadata(null, OnSynchronizedSelectedItemsChanged));
 
     private static readonly DependencyProperty SynchronizationManagerProperty = DependencyProperty.RegisterAttached(
-      "SynchronizationManager", typeof(SynchronizationManager), typeof(MultiSelectorBehaviours), new PropertyMetadata(null));
+      "SynchronizationManager", typeof(ISynchronizationManager), typeof(MultiSelectorBehaviours), new PropertyMetadata(null));
 
     /// <summary>
     /// Gets the synchronized selected items.
@@ -40,12 +40,12 @@ namespace PrimS.SelectedItemsSynchronizer
       dependencyObject.SetValue(SynchronizedSelectedItems, value);
     }
 
-    private static SynchronizationManager GetSynchronizationManager(DependencyObject dependencyObject)
+    private static ISynchronizationManager GetSynchronizationManager(DependencyObject dependencyObject)
     {
-      return (SynchronizationManager)dependencyObject.GetValue(SynchronizationManagerProperty);
+      return (ISynchronizationManager)dependencyObject.GetValue(SynchronizationManagerProperty);
     }
 
-    private static void SetSynchronizationManager(DependencyObject dependencyObject, SynchronizationManager value)
+    private static void SetSynchronizationManager(DependencyObject dependencyObject, ISynchronizationManager value)
     {
       dependencyObject.SetValue(SynchronizationManagerProperty, value);
     }
@@ -54,47 +54,110 @@ namespace PrimS.SelectedItemsSynchronizer
     {
       if (e.OldValue != null)
       {
-        SynchronizationManager synchronizer = GetSynchronizationManager(dependencyObject);
+        ISynchronizationManager synchronizer = GetSynchronizationManager(dependencyObject);
         synchronizer.StopSynchronizing();
 
         SetSynchronizationManager(dependencyObject, null);
       }
 
-      IList list = e.NewValue as IList;
-      Selector selector = dependencyObject as Selector;
-
-      // check that this property is an IList, and that it is being set on a ListBox
-      if (list != null && selector != null)
+      Calendar calendar = dependencyObject as Calendar;
+      if (calendar != null)
       {
-        SynchronizationManager synchronizer = GetSynchronizationManager(dependencyObject);
+        ISynchronizationManager synchronizer = GetSynchronizationManager(dependencyObject);
         if (synchronizer == null)
         {
-          synchronizer = new SynchronizationManager(selector);
+          synchronizer = new CalendarSynchronizationManager(calendar);
           SetSynchronizationManager(dependencyObject, synchronizer);
         }
 
         synchronizer.StartSynchronizing();
+      }
+      else
+      {
+        IList list = e.NewValue as IList;
+        Selector selector = dependencyObject as Selector;
+
+        // check that this property is an IList, and that it is being set on a ListBox
+        if (list != null && selector != null)
+        {
+          ISynchronizationManager synchronizer = GetSynchronizationManager(dependencyObject);
+          if (synchronizer == null)
+          {
+            synchronizer = new SelectorSynchronizationManager(selector);
+            SetSynchronizationManager(dependencyObject, synchronizer);
+          }
+
+          synchronizer.StartSynchronizing();
+        }
+      }
+    }
+
+    private class CalendarSynchronizationManager : BaseSynchronizationManager<Calendar>, ISynchronizationManager
+    {
+      /// <summary>
+      /// Initialises a new instance of the <see cref="SelectorSynchronizationManager"/> class.
+      /// </summary>
+      /// <param name="selector">The selector.</param>
+      internal CalendarSynchronizationManager(Calendar calendar)
+        : base(calendar)
+      { }
+
+      protected override IList GetSelectedItemsCollection(Calendar calendar)
+      {
+        return calendar.SelectedDates;
+      }
+    }
+
+    private abstract class BaseSynchronizationManager<T> : ISynchronizationManager
+      where T : DependencyObject
+    {
+      private readonly T source;
+      private TwoListSynchronizer synchronizer;
+
+      protected BaseSynchronizationManager(T source)
+      {
+        this.source = source;
+      }
+
+      protected abstract IList GetSelectedItemsCollection(T source);
+
+      /// <summary>
+      /// Starts synchronizing the list.
+      /// </summary>
+      public void StartSynchronizing()
+      {
+        IList list = GetSynchronizedSelectedItems(this.source);
+
+        if (list != null)
+        {
+          this.synchronizer = new TwoListSynchronizer(GetSelectedItemsCollection(this.source), list);
+          this.synchronizer.StartSynchronizing();
+        }
+      }
+
+      /// <summary>
+      /// Stops synchronizing the list.
+      /// </summary>
+      public void StopSynchronizing()
+      {
+        this.synchronizer.StopSynchronizing();
       }
     }
 
     /// <summary>
     /// A synchronization manager.
     /// </summary>
-    private class SynchronizationManager
+    private class SelectorSynchronizationManager : BaseSynchronizationManager<Selector>
     {
-      private readonly Selector multiSelector;
-      private TwoListSynchronizer synchronizer;
-
       /// <summary>
-      /// Initialises a new instance of the <see cref="SynchronizationManager"/> class.
+      /// Initialises a new instance of the <see cref="SelectorSynchronizationManager"/> class.
       /// </summary>
       /// <param name="selector">The selector.</param>
-      internal SynchronizationManager(Selector selector)
-      {
-        this.multiSelector = selector;
-      }
+      internal SelectorSynchronizationManager(Selector selector)
+        : base(selector)
+      { }
 
-      public static IList GetSelectedItemsCollection(Selector selector)
+      protected override IList GetSelectedItemsCollection(Selector selector)
       {
         if (selector is MultiSelector)
         {
@@ -108,28 +171,6 @@ namespace PrimS.SelectedItemsSynchronizer
         {
           throw new InvalidOperationException("Target object has no SelectedItems property to bind.");
         }
-      }
-
-      /// <summary>
-      /// Starts synchronizing the list.
-      /// </summary>
-      public void StartSynchronizing()
-      {
-        IList list = GetSynchronizedSelectedItems(this.multiSelector);
-
-        if (list != null)
-        {
-          this.synchronizer = new TwoListSynchronizer(GetSelectedItemsCollection(this.multiSelector), list);
-          this.synchronizer.StartSynchronizing();
-        }
-      }
-
-      /// <summary>
-      /// Stops synchronizing the list.
-      /// </summary>
-      public void StopSynchronizing()
-      {
-        this.synchronizer.StopSynchronizing();
       }
     }
   }
