@@ -6,13 +6,13 @@
     <title>SelectedItemsSynchronizer</title>
     <authors>SelectedItemsSynchronizer contributors</authors>
     <owners>9swampy</owners>
-    <licenseUrl>https://github.com/9swampy/SelectedItemsBindingDemo/blob/SelectedItemsSynchronizer/License.txt</licenseUrl>
+	<licenseUrl>https://raw.githubusercontent.com/9swampy/SelectedItemsBindingDemo/SelectedItemsSynchronizer/License.txt</licenseUrl>
     <projectUrl>https://github.com/9swampy/SelectedItemsBindingDemo/tree/SelectedItemsSynchronizer</projectUrl>
     <iconUrl>https://raw.githubusercontent.com/9swampy/SelectedItemsBindingDemo/SelectedItemsSynchronizer/Psync128.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Facilitates binding WPF SelectedItems</description>
+    <description>Facilitates two-way binding of the readonly MultiSelector.SelectedItems property in ListBox/ListView on WPF. There's also a working prototype/example for binding Calendar.SelectedDates using a similar mechanism.</description>
     <releaseNotes>
-      Adds working example/prototype OneWayToSource Calendar synchronizer.
+      Update Nuspec to improve description and license linkage, add example usage to ReadMe.
     </releaseNotes>
     <copyright>Copyright (c) 9swampy, SelectedItemSynchronizer contributors</copyright>
     <tags>SelectedItems WPF binding ViewModel MVVM multiselector selector ListView ListBox</tags>
