@@ -12,14 +12,16 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Facilitates two-way binding of the readonly MultiSelector.SelectedItems property in ListBox/ListView on WPF. There's also a working prototype/example for binding Calendar.SelectedDates using a similar mechanism.</description>
     <releaseNotes>
-      Update Nuspec to improve description and license linkage, add example usage to ReadMe.
+      Add Net4.0 package.
     </releaseNotes>
     <copyright>Copyright (c) 9swampy, SelectedItemSynchronizer contributors</copyright>
     <tags>SelectedItems WPF binding ViewModel MVVM multiselector selector ListView ListBox</tags>
   </metadata>
   <files>
     <file src="License.txt" target="content" />
-    <file src="SelectedItemsSynchronizer\Bin\Release\PrimS.SelectedItemsSynchronizer.dll" target="lib\net45" />
-    <file src="SelectedItemsSynchronizer\Bin\Release\PrimS.SelectedItemsSynchronizer.xml" target="lib\net45" />
+    <file src="SelectedItemsSynchronizer\Bin\Release\PrimS.SelectedItemsSynchronizer.dll" target="lib\net40" />
+    <file src="SelectedItemsSynchronizer\Bin\Release\PrimS.SelectedItemsSynchronizer.xml" target="lib\net40" />
+    <file src="SelectedItemsSynchronizer.Net45\Bin\Release\PrimS.SelectedItemsSynchronizer.Net45.dll" target="lib\net45" />
+    <file src="SelectedItemsSynchronizer.Net45\Bin\Release\PrimS.SelectedItemsSynchronizer.Net45.xml" target="lib\net45" />
   </files>
 </package>

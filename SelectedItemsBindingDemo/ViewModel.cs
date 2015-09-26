@@ -221,7 +221,7 @@
 
           this.UpdateSummary(currentSelectedItems);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
           throw;
         }
@@ -261,7 +261,7 @@
                   Interlocked.Decrement(ref this.selectingMap);
                 }
               }
-              catch (Exception ex)
+              catch (Exception)
               {
                 throw;
               }

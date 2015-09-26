@@ -136,9 +136,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SelectedItemsSynchronizer\PrimS.SelectedItemsSynchronizer.csproj">
-      <Project>{6fd3314f-9a43-4fcf-a073-6c97ca2d1e81}</Project>
-      <Name>PrimS.SelectedItemsSynchronizer</Name>
+    <ProjectReference Include="..\SelectedItemsSynchronizer.NET45\PrimS.SelectedItemsSynchronizer.Net45.csproj">
+      <Project>{558e4d9f-ccb2-4da8-82b3-3ad41f4637e4}</Project>
+      <Name>PrimS.SelectedItemsSynchronizer.Net45</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
