@@ -95,12 +95,13 @@ namespace PrimS.SelectedItemsSynchronizer
     private class CalendarSynchronizationManager : BaseSynchronizationManager<Calendar>, ISynchronizationManager
     {
       /// <summary>
-      /// Initialises a new instance of the <see cref="SelectorSynchronizationManager"/> class.
+      /// Initialises a new instance of the <see cref="CalendarSynchronizationManager"/> class.
       /// </summary>
-      /// <param name="selector">The selector.</param>
+      /// <param name="calendar">The calendar to sync.</param>
       internal CalendarSynchronizationManager(Calendar calendar)
         : base(calendar)
-      { }
+      { 
+      }
 
       protected override IList GetSelectedItemsCollection(Calendar calendar)
       {
@@ -119,8 +120,6 @@ namespace PrimS.SelectedItemsSynchronizer
         this.source = source;
       }
 
-      protected abstract IList GetSelectedItemsCollection(T source);
-
       /// <summary>
       /// Starts synchronizing the list.
       /// </summary>
@@ -130,7 +129,7 @@ namespace PrimS.SelectedItemsSynchronizer
 
         if (list != null)
         {
-          this.synchronizer = new TwoListSynchronizer(GetSelectedItemsCollection(this.source), list);
+          this.synchronizer = new TwoListSynchronizer(this.GetSelectedItemsCollection(this.source), list);
           this.synchronizer.StartSynchronizing();
         }
       }
@@ -142,6 +141,8 @@ namespace PrimS.SelectedItemsSynchronizer
       {
         this.synchronizer.StopSynchronizing();
       }
+
+      protected abstract IList GetSelectedItemsCollection(T source);
     }
 
     /// <summary>
@@ -155,7 +156,8 @@ namespace PrimS.SelectedItemsSynchronizer
       /// <param name="selector">The selector.</param>
       internal SelectorSynchronizationManager(Selector selector)
         : base(selector)
-      { }
+      {
+      }
 
       protected override IList GetSelectedItemsCollection(Selector selector)
       {

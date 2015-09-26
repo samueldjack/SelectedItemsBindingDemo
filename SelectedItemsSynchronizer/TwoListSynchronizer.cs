@@ -64,7 +64,7 @@ namespace PrimS.SelectedItemsSynchronizer
           }
         }
       }
-      catch (Exception ex)
+      catch (Exception)
       {
         throw;
       }
@@ -83,7 +83,7 @@ namespace PrimS.SelectedItemsSynchronizer
           this.StopListeningForChangeEvents(this.targetList);
         }
       }
-      catch (Exception ex)
+      catch (Exception)
       {
         throw;
       }
@@ -106,7 +106,7 @@ namespace PrimS.SelectedItemsSynchronizer
 
         return true;
       }
-      catch (Exception ex)
+      catch (Exception)
       {
         throw;
       }

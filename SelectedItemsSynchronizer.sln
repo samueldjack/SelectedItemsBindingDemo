@@ -7,9 +7,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SelectedItemsBindingDemo", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrimS.SelectedItemsSynchronizer", "SelectedItemsSynchronizer\PrimS.SelectedItemsSynchronizer.csproj", "{6FD3314F-9A43-4FCF-A073-6C97CA2D1E81}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrimS.SelectedItemsSynchronizer.CiTests", "PrimS.SelectedItemsSynchronizer.CiTests\PrimS.SelectedItemsSynchronizer.CiTests.csproj", "{918FE624-1E12-48BE-A3F0-FC1B5CF1412F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrimS.SelectedItemsSynchronizer.CiTests", "SelectedItemsSynchronizer.CiTests\PrimS.SelectedItemsSynchronizer.CiTests.csproj", "{918FE624-1E12-48BE-A3F0-FC1B5CF1412F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrimS.SelectedItemsSynchronizer.NET45", "PrimS.SelectedItemsSynchronizer.NET45\PrimS.SelectedItemsSynchronizer.NET45.csproj", "{558E4D9F-CCB2-4DA8-82B3-3AD41F4637E4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrimS.SelectedItemsSynchronizer.Net45", "SelectedItemsSynchronizer.NET45\PrimS.SelectedItemsSynchronizer.Net45.csproj", "{558E4D9F-CCB2-4DA8-82B3-3AD41F4637E4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{3BA1A4D4-A636-4B35-8DD8-2EC985FC174A}"
+	ProjectSection(SolutionItems) = preProject
+		SelectedItemsSynchronizer.nuspec = SelectedItemsSynchronizer.nuspec
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
