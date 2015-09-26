@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SelectedItemsBindingDemo", "SelectedItemsBindingDemo\SelectedItemsBindingDemo.csproj", "{7DA5A107-B474-4AC0-B861-63A489DB0C02}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrimS.SelectedItemsSynchronizer", "SelectedItemsSynchronizer\PrimS.SelectedItemsSynchronizer.csproj", "{6FD3314F-9A43-4FCF-A073-6C97CA2D1E81}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrimS.SelectedItemsSynchronizer.CiTests", "PrimS.SelectedItemsSynchronizer.CiTests\PrimS.SelectedItemsSynchronizer.CiTests.csproj", "{918FE624-1E12-48BE-A3F0-FC1B5CF1412F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrimS.SelectedItemsSynchronizer.NET45", "PrimS.SelectedItemsSynchronizer.NET45\PrimS.SelectedItemsSynchronizer.NET45.csproj", "{558E4D9F-CCB2-4DA8-82B3-3AD41F4637E4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{918FE624-1E12-48BE-A3F0-FC1B5CF1412F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{918FE624-1E12-48BE-A3F0-FC1B5CF1412F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{918FE624-1E12-48BE-A3F0-FC1B5CF1412F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{558E4D9F-CCB2-4DA8-82B3-3AD41F4637E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{558E4D9F-CCB2-4DA8-82B3-3AD41F4637E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{558E4D9F-CCB2-4DA8-82B3-3AD41F4637E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{558E4D9F-CCB2-4DA8-82B3-3AD41F4637E4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
