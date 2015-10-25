@@ -1,3 +1,12 @@
+[![][build-img]][build]
+[![][nuget-img]][nuget]
+
+[build]:     https://ci.appveyor.com/project/9swampy/selecteditemsbindingdemo
+[build-img]: https://ci.appveyor.com/api/projects/status/aa8mw3opmlyxc68u?svg=true
+
+[nuget]:     https://badge.fury.io/nu/SelectedItemsSynchronizer
+[nuget-img]: https://badge.fury.io/nu/SelectedItemsSynchronizer.svg
+
 SelectedItemsBindingDemo
 ========================
 
